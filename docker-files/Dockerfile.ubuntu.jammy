@@ -1,0 +1,18 @@
+FROM ubuntu:22.04
+RUN apt-get update
+RUN apt-get -y install git help2man perl python3 make autoconf g++ flex bison ccache
+RUN apt-get -y install libgoogle-perftools-dev numactl perl-doc
+RUN apt-get -y install libfl2
+RUN apt-get -y install libfl-dev
+RUN apt-get -y install zlib1g zlib1g-dev
+
+RUN unset VERILATOR_ROOT
+RUN git clone https://github.com/verilator/verilator
+WORKDIR /verilator
+
+RUN mkdir /verilator-latest
+ENV VERILATOR_ROOT=/verilator-latest
+
+RUN git pull
+RUN git checkout master
+RUN autoconf && ./configure && make -j `nproc`
