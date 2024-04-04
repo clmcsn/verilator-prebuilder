@@ -73,3 +73,4 @@ split -b 50M verilator-$VERILATOR_VERSION.tar.bz2 "verilator-$VERILATOR_VERSION.
 mkdir -p $PREBUILT_DIR
 mv verilator-$VERILATOR_VERSION.tar.bz2.part* $PREBUILT_DIR
 rm -f verilator-$VERILATOR_VERSION.tar.bz2
+rm -rf verilator-$VERILATOR_VERSION

@@ -7,15 +7,13 @@ RUN apt-get -y install libfl-dev
 RUN apt-get -y install zlib1g zlib1g-dev
 
 RUN unset VERILATOR_ROOT
-RUN git clone https://github.com/verilator/verilator
-WORKDIR /verilator
-
 RUN mkdir /verilator-latest
-ENV VERILATOR_ROOT=/verilator-latest
+RUN git clone https://github.com/verilator/verilator /verilator-latest
+WORKDIR /verilator-latest
 
-RUN git pull
 RUN git checkout master
+RUN git pull
+
 RUN autoconf
-WORKDIR /verilator-latest 
-RUN /verilator/configure 
+RUN ./configure 
 RUN make -j `nproc`
