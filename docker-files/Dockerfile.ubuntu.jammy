@@ -15,4 +15,7 @@ ENV VERILATOR_ROOT=/verilator-latest
 
 RUN git pull
 RUN git checkout master
-RUN autoconf && ./configure && make -j `nproc`
+RUN autoconf
+WORKDIR /verilator-latest 
+RUN /verilator/configure 
+RUN make -j `nproc`
