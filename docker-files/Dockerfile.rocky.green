@@ -1,0 +1,19 @@
+#verilator versioon v4.4228
+FROM rockylinux:8.9
+RUN dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+RUN dnf -y upgrade
+RUN dnf -y install git perl python3 make autoconf gcc-c++ flex bison ccache numactl
+RUN dnf -y --enablerepo=powertools install help2man 
+RUN dnf -y install yum
+RUN yum -y install gperftools-devel
+RUN unset VERILATOR_ROOT
+RUN mkdir /verilator
+RUN git clone https://github.com/verilator/verilator /verilator
+WORKDIR /verilator
+
+RUN git checkout 746c7ea
+#RUN git pull
+
+RUN autoconf
+RUN ./configure 
+RUN make -j `nproc`

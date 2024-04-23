@@ -12,7 +12,7 @@ set -e
 SCRIPT_DIR=$(dirname "$0")
 DOCKER_FILE=0
 #TODO: Allow generation for any version
-VERILATOR_VERSION=latest
+VERILATOR_VERSION=v4.228
 
 for i in "$@"
 do
@@ -59,7 +59,7 @@ $DOCKER build -f $DOCKER_FILE -t verilator $SCRIPT_DIR
 CONT_ID=$($DOCKER create verilator)
 
 # Copy the verilator binary
-$DOCKER cp $CONT_ID:/verilator-$VERILATOR_VERSION .
+$DOCKER cp $CONT_ID:/verilator .
 
 # Remove the container
 $DOCKER rm $CONT_ID
@@ -68,9 +68,9 @@ $DOCKER rm $CONT_ID
 $DOCKER rmi verilator
 
 # Make archive
-tar -cvjf verilator-$VERILATOR_VERSION.tar.bz2 verilator-$VERILATOR_VERSION
+tar -cjf verilator-$VERILATOR_VERSION.tar.bz2 verilator
 split -b 50M verilator-$VERILATOR_VERSION.tar.bz2 "verilator-$VERILATOR_VERSION.tar.bz2.part"
 mkdir -p $PREBUILT_DIR
 mv verilator-$VERILATOR_VERSION.tar.bz2.part* $PREBUILT_DIR
 rm -f verilator-$VERILATOR_VERSION.tar.bz2
-rm -rf verilator-$VERILATOR_VERSION
+rm -rf verilator
